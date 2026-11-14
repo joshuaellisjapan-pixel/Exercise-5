@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equipment Requests</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Equipment Requests</h1>
+  </header>
+  <main>
+    <section class="panel" aria-labelledby="add-heading">
+      <h2 id="add-heading">New request</h2>
+      <form id="request-form">
+        <label for="equipment">Equipment name</label>
+        <input id="equipment" name="equipment" required maxlength="120">
+
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority" required>
+          <option value="">Choose a priority</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+
+        <button type="submit">Add request</button>
+      </form>
+      <p id="form-status" role="status"></p>
+    </section>
+    <section class="panel" aria-labelledby="requests-heading">
+      <h2 id="requests-heading">Existing requests</h2>
+      <p id="empty-state">No requests yet.</p>
+      <ul id="requests" hidden></ul>
+    </section>
+  </main>
+</body>
+</html>
