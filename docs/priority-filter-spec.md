@@ -42,3 +42,19 @@ Managers need to narrow the equipment request list to a single priority, then re
 - Sorting or reordering requests by priority.
 - Adding, editing, or deleting requests through the filter, or changing how priorities are assigned.
 - Saving the selected filter across refreshes or app launches.
+
+## Verification Results
+
+All nine automated acceptance checks passed. The checks used a simulated page and browser local storage. The reset check simulated page lifecycle events and reopening the app.
+
+| Acceptance criterion | Result | Observed behavior |
+| --- | --- | --- |
+| 1. Default view and options | Pass | Opening the app selected **All** and displayed all 10 requests in their original order. The dropdown options were **All**, **High**, **Medium**, and **Low**, in that order. |
+| 2. High-priority filter | Pass | Selecting **High** displayed exactly the three matching requests in their original relative order. |
+| 3. Case-insensitive matching | Pass | **High** matched `high`, `HIGH`, and `High` and excluded Low requests. |
+| 4. Medium and Low filters | Pass | Each selection displayed exactly the matching requests in their original relative order. |
+| 5. Missing and unknown priorities | Pass | Specific priorities excluded both records. Selecting **All** restored all 10 requests in their original order. |
+| 6. No matching requests | Pass | Selecting **Low** with no Low requests returned zero rows and displayed “No requests found.” |
+| 7. Empty request list | Pass | Opening the app with no saved requests selected **All** and displayed “No requests found.” |
+| 8. Reset on refresh and reopen | Pass | Simulating a page reload and opening a fresh app instance both selected **All** and restored the full list in its original order. |
+| 9. Local operation and data preservation | Pass | All selections worked in the test harness using local storage alone. Cycling through the options and returning to **All** preserved the exact stored value and made zero storage writes. |

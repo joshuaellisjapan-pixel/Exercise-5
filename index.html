@@ -32,7 +32,14 @@
     </section>
     <section class="panel" aria-labelledby="requests-heading">
       <h2 id="requests-heading">Existing requests</h2>
-      <p id="empty-state">No requests yet.</p>
+      <label for="priority-filter">Priority</label>
+      <select id="priority-filter" autocomplete="off">
+        <option value="all" selected>All</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+      <p id="empty-state" role="status">No requests found.</p>
       <ul id="requests" hidden></ul>
     </section>
   </main>

@@ -5,6 +5,7 @@ const priorities = ["High", "Medium", "Low"];
 const form = document.querySelector("#request-form");
 const equipment = document.querySelector("#equipment");
 const priority = document.querySelector("#priority");
+const priorityFilter = document.querySelector("#priority-filter");
 const statusMessage = document.querySelector("#form-status");
 const requestList = document.querySelector("#requests");
 const emptyState = document.querySelector("#empty-state");
@@ -19,7 +20,15 @@ function loadRequests() {
 }
 
 function showRequests(requests) {
-  const items = requests.map((request) => {
+  const selectedPriority = priorityFilter.value;
+  const visibleRequests = selectedPriority === "all"
+    ? requests
+    : requests.filter((request) =>
+      typeof request.priority === "string" &&
+      request.priority.toLowerCase() === selectedPriority
+    );
+
+  const items = visibleRequests.map((request) => {
     const item = document.createElement("li");
     const name = document.createElement("span");
     const badge = document.createElement("span");
@@ -33,14 +42,26 @@ function showRequests(requests) {
 
   requestList.replaceChildren(...items);
   requestList.hidden = items.length === 0;
+  emptyState.textContent = "No requests found.";
   emptyState.hidden = items.length > 0;
 }
 
-try {
-  showRequests(loadRequests());
-} catch {
-  emptyState.textContent = "Saved requests could not be loaded.";
+function refreshRequests() {
+  try {
+    showRequests(loadRequests());
+  } catch {
+    requestList.replaceChildren();
+    requestList.hidden = true;
+    emptyState.textContent = "Saved requests could not be loaded.";
+    emptyState.hidden = false;
+  }
 }
+
+priorityFilter.addEventListener("change", refreshRequests);
+window.addEventListener("pageshow", () => {
+  priorityFilter.value = "all";
+  refreshRequests();
+});
 
 equipment.addEventListener("input", () => equipment.setCustomValidity(""));
 
@@ -68,7 +89,6 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  emptyState.textContent = "No requests yet.";
   showRequests(requests);
   form.reset();
   statusMessage.textContent = "Request added.";
